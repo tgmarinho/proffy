@@ -76,6 +76,11 @@ export default class ClassesController {
       } 
 
       const timeInMinutes = convertHourToMinutes(time)
+      
+     const test = await db.raw(`select * from classes inner join users on classes.user_id = users.id where exists (select class_schedule from class_schedule where class_schedule.class_id = classes.id and class_schedule.week_day = 1 and class_schedule.from <= 540 and class_schedule.to > 540) and classes.subject = ?`, [subject])
+      console.log(test)
+
+      // select `classes`.*, `users`.* from `classes` inner join `users` on `classes`.`user_id` = `users`.`id` where exists (select `class_schedule`.* from `class_schedule` where `class_schedule`.`class_id` = `classes`.`id` and `class_schedule`.`week_day` = 1 and `class_schedule`.`from` <= 540 and `class_schedule`.`to` > 540) and `classes`.`subject` = ?'
 
       const classes = await db('classes')
           .whereExists(function () {
