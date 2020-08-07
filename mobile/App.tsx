@@ -23,7 +23,7 @@ export default function App() {
   return (
     <>
       <AppStack />
-      <StatusBar style="light" translucent />
+      <StatusBar style="light" />
     </>
   );
 }

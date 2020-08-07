@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Image, Text, TouchableOpacity } from 'react-native'
 import styles from './styles'
 import { RectButton } from 'react-native-gesture-handler'
@@ -8,10 +8,26 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.png'
 import heartIcon from '../../assets/images/icons/heart.png'
 
 import { useNavigation } from '@react-navigation/native'
+import api from '../../services/api'
 
 function Landing() {
 
   const { navigate } = useNavigation()
+
+  const [totalConnections, setTotalConnections] = useState(0);
+
+  console.log(totalConnections)
+
+  console.log("haha")
+  useEffect(() => {
+    api.get(`connections`)
+    .then(response => {
+      console.log(totalConnections)
+      setTotalConnections(response.data.total)
+    })
+    .catch(error => console.log(error))
+  }, [])
+
 
   function handleNavigateToGiveClassesPage() {
     navigate('GiveClasses')
@@ -25,9 +41,9 @@ function Landing() {
     <View style={styles.container}>
       <Image source={landingImg}  style={styles.banner} />
 
-  <Text style={styles.title}>Seja bem-vindo, {'\n'}
-    <Text style={styles.titleBold}>O que deseja fazer?</Text>
-  </Text>
+    <Text style={styles.title}>Seja bem-vindo, {'\n'}
+      <Text style={styles.titleBold}>O que deseja fazer?</Text>
+    </Text>
 
 
     <View style={styles.buttonsContainer}>
@@ -45,10 +61,10 @@ function Landing() {
         <Text style={styles.buttonText}>Dar aulas</Text>
       </RectButton>
       
-
+ 
     </View>
 
-    <Text style={styles.totalConnections}>Total de 285 conexões já realizadas
+    <Text style={styles.totalConnections}>Total de {totalConnections} conexões já realizadas
         {' '} <Image source={heartIcon} />   
      </Text>
 
